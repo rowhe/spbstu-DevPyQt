@@ -1,7 +1,7 @@
 from PySide6 import QtWidgets
 
 
-class Window(QtWidgets.QWidget):
+class WindowTemplate(QtWidgets.QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
