@@ -4,17 +4,25 @@
 Напомнить про работу с событиями.
 
 Предлагается создать приложение, которое будет показывать все события происходящие в приложении,
-(переопределить метод event), вывод событий производить в консоль и в plainTextEdit,
-размещённый на виджете, при выводе события указывать время, когда оно произошло
+(переопределить метод event), вывод событий производить в консоль. При выводе события указывать время, когда оно произошло
 """
+import time
 
-from PySide6 import QtWidgets
+from PySide6 import QtWidgets, QtCore
 
 
 class Window(QtWidgets.QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+
+        self.initUi()
+
+    def event(self, event: QtCore.QEvent) -> bool:
+        e = f"{time.ctime()}: {event}"
+        print(e)
+
+        return super(Window, self).event(event)
 
 
 if __name__ == "__main__":
