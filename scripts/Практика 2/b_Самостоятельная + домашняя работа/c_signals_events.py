@@ -6,6 +6,7 @@
 
 1. Возможность перемещения окна по заданным координатам.
 2. Возможность получения параметров экрана (вывод производить в plainTextEdit + добавлять время).
+    * QtWidgets.QApplication.screens()
     * Кол-во экранов
     * Текущее основное окно
     * Разрешение экрана
@@ -20,14 +21,33 @@
     * При изменении размера окна выводить его новый размер
 """
 
-
-from PySide6 import QtWidgets
+from PySide6 import QtWidgets, QtCore
+from ui.c_signals_events_design import Ui_Form
 
 
 class Window(QtWidgets.QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+
+        self.ui = Ui_Form()
+        self.ui.setupUi(self)
+
+        self.initSignals()
+
+    def initSignals(self):
+
+        self.ui.pushButtonLT.clicked.connect(lambda: self.move(0, 0))
+        self.ui.pushButtonRT.clicked.connect(self.moveRightTop)
+
+    def moveRightTop(self):
+
+        current_screen = QtWidgets.QApplication.screenAt(self.pos())
+        screen_width = current_screen.size().width()
+        pos_x = screen_width-self.width()
+
+        self.move(pos_x, 0)
+
 
 
 if __name__ == "__main__":
