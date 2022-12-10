@@ -15,8 +15,9 @@
 """
 import time
 
-from PySide6 import QtWidgets, QtCore
+from PySide6 import QtWidgets, QtCore, QtGui
 import requests
+from requests.exceptions import ConnectTimeout
 
 
 class Window(QtWidgets.QWidget):
@@ -24,9 +25,9 @@ class Window(QtWidgets.QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        self.initUi()
-
         self.initThread()
+        self.initUi()
+        self.initSignals()
 
     def initUi(self) -> None:
         """
@@ -57,9 +58,58 @@ class Window(QtWidgets.QWidget):
         self.setLayout(layout)
 
     def initThread(self):
+        """
+
+        :return:
+        """
+
         self.urlCheckerThread = URLCheckerThread()
-        self.urlCheckerThread.url = 'https://www.google.ru/'
-        self.urlCheckerThread.start()
+
+    def initSignals(self):
+        """
+
+        :return:
+        """
+
+        self.pushButton.clicked.connect(self.startUrlCheck)
+        self.urlCheckerThread.started.connect(lambda: self.plainTextEdit.appendPlainText("Поток запущен"))
+        self.urlCheckerThread.responsed.connect(lambda status_code: self.plainTextEdit.appendPlainText(f"{time.ctime()} Статус сайта: {status_code}"))
+        self.urlCheckerThread.finished.connect(self.threadFinished)
+        self.spinBox.valueChanged.connect(self.setTimeout)
+
+    def startUrlCheck(self, status: bool) -> None:
+        """
+
+        :param status: состояние кнопки
+        :return:
+        """
+
+        if status:
+            url = self.lineEditUrl.text()
+
+            if not url:
+                QtWidgets.QMessageBox.about(self, "Ошибка", "URL не заполнен")
+                self.pushButton.setChecked(False)
+                return None
+
+            self.urlCheckerThread.url = url
+            self.urlCheckerThread.timeout = self.spinBox.value()
+            self.urlCheckerThread.start()
+            self.pushButton.setText("Остановить проверку")
+        else:
+            self.urlCheckerThread.status = False
+            self.pushButton.setText("Запустить проверку")
+            self.pushButton.setEnabled(False)
+
+    def threadFinished(self):
+        self.plainTextEdit.appendPlainText("Поток остановлен")
+        self.pushButton.setEnabled(True)
+
+    def setTimeout(self, value):
+        self.urlCheckerThread.timeout = value
+
+    def closeEvent(self, event: QtGui.QCloseEvent) -> None:
+        self.urlCheckerThread.terminate()
 
 
 class URLCheckerThread(QtCore.QThread):
@@ -73,11 +123,14 @@ class URLCheckerThread(QtCore.QThread):
         self.status = True
 
     def run(self):
+        self.status = True
 
         while self.status:
-            response = requests.get(self.url)
-            print(response.status_code)
-
+            try:
+                response = requests.get(self.url)
+                self.responsed.emit(response.status_code)
+            except ConnectTimeout:
+                self.responsed.emit(-1)
             time.sleep(self.timeout)
 
 
