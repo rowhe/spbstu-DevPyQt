@@ -21,10 +21,11 @@ class Window(QtWidgets.QWidget):
 
         self.initSignals()
 
-    def initUi(self):
+    def initUi(self) -> None:
         """
+        Доинициализация Ui
 
-        :return:
+        :return: None
         """
 
         self.labelDateTime = QtWidgets.QLabel()
@@ -43,10 +44,11 @@ class Window(QtWidgets.QWidget):
 
         self.setLayout(layout)
 
-    def initTimers(self):
+    def initTimers(self) -> None:
         """
+        Инициализация таймеров
 
-        :return:
+        :return: None
         """
 
         self.timerTime = QtCore.QTimer()
@@ -56,10 +58,11 @@ class Window(QtWidgets.QWidget):
         self.timerHandle = QtCore.QTimer()
         self.timerHandle.setInterval(2000)
 
-    def initSignals(self):
+    def initSignals(self) -> None:
         """
+        Инициализация сигналов
 
-        :return:
+        :return: None
         """
 
         self.timerTime.timeout.connect(self.setDateTime)
@@ -67,28 +70,32 @@ class Window(QtWidgets.QWidget):
 
         self.pushButton.clicked.connect(self.setTimerHandleStatus)
 
-    def setDateTime(self):
+    def setDateTime(self) -> None:
         """
+        Установка времени в labelDateTime
 
-        :return:
+        :return: None
         """
 
         dateTime = QtCore.QDateTime.currentDateTime()
         dateStr = dateTime.toString("yyyy-MM-dd HH:mm:ss ddd")
         self.labelDateTime.setText(dateStr)
 
-    def handleFunc(self):
+    def handleFunc(self) -> None:
         """
+        Функция обработки
 
-        :return:
+        :return: None
         """
 
         self.plainTextEdit.appendPlainText(time.ctime() + " Вызов функции: " + str(self.handleFunc))
 
-    def setTimerHandleStatus(self, status):
+    def setTimerHandleStatus(self, status) -> None:
         """
+        Остановка/запуск таймера для функции обработки
 
-        :return:
+        :param status: состояние self.pushButton
+        :return: None
         """
 
         if status:
