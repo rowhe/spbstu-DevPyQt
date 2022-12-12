@@ -9,3 +9,20 @@
 3. поле для вывода информации о погоде в указанных координатах
 4. поток необходимо запускать и останавливать при нажатие на кнопку
 """
+
+from PySide6 import QtWidgets
+
+
+class Window(QtWidgets.QWidget):
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+
+if __name__ == "__main__":
+    app = QtWidgets.QApplication()
+
+    window = Window()
+    window.show()
+
+    app.exec()
