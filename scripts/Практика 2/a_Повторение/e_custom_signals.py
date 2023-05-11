@@ -15,13 +15,74 @@
   (пароль можно показать в терминале в захешированном виде)
 """
 
-from PySide6 import QtWidgets
+from PySide6 import QtWidgets, QtCore
 
 
 class Window(QtWidgets.QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+
+        self.initUi()
+        self.initSignals()
+
+    def initUi(self):
+
+        self.label = QtWidgets.QLabel("Пройдите регистрацию")
+        self.pb = QtWidgets.QPushButton("Зарегистрироваться")
+
+        layout = QtWidgets.QVBoxLayout()
+        layout.addWidget(self.label)
+        layout.addWidget(self.pb)
+
+        self.setLayout(layout)
+
+    def initSignals(self):
+        self.pb.clicked.connect(self.showRegistrationDialog)
+
+    def showRegistrationDialog(self):
+        self.regDialog = RegistrationDialog()
+        self.regDialog.registered.connect(self.userIsRegistered)
+        self.regDialog.exec()
+
+    def userIsRegistered(self, login_data: tuple):
+        self.label.setText(f"Добро пожаловать {login_data[0]}")
+        print(login_data[1])
+
+
+class RegistrationDialog(QtWidgets.QDialog):
+    registered = QtCore.Signal(tuple)
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+        self.initUi()
+        self.initSignals()
+
+    def initUi(self):
+
+        self.leLogin = QtWidgets.QLineEdit()
+        self.leLogin.setPlaceholderText("Введите логин")
+
+        self.lePassword = QtWidgets.QLineEdit()
+        self.lePassword.setPlaceholderText("Введите пароль")
+        self.lePassword.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
+
+        self.pbRegistration = QtWidgets.QPushButton("Зарегистрироваться")
+
+        layout = QtWidgets.QVBoxLayout()
+        layout.addWidget(self.leLogin)
+        layout.addWidget(self.lePassword)
+        layout.addWidget(self.pbRegistration)
+
+        self.setLayout(layout)
+
+    def initSignals(self):
+        self.pbRegistration.clicked.connect(self.onPBClicked)
+
+    def onPBClicked(self):
+        self.registered.emit((self.leLogin.text(), self.lePassword.text()))
+        self.close()
 
 
 if __name__ == "__main__":
