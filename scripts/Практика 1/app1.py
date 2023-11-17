@@ -17,6 +17,7 @@ class Window(QtWidgets.QMainWindow):  # наследуемся от того ж�
         # Создание "прокси" переменной для работы с формой
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+
         self.ui.pushButton_2.setText("MOIA KNOPS")
         self.ui.checkBox_3.setChecked(True)
         print(self.ui.checkBox_3.isChecked())
