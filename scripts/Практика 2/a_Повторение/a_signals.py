@@ -17,6 +17,7 @@ class Window(QtWidgets.QWidget):
         super().__init__(parent)
 
 
+
 if __name__ == "__main__":
     app = QtWidgets.QApplication()
 

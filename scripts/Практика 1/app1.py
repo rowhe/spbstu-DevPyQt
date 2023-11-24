@@ -10,7 +10,7 @@ from PySide6 import QtWidgets
 from ui.first import Ui_MainWindow  # Импортируем класс формы
 
 
-class Window(QtWidgets.QMainWindow):  # наследуемся от того же класса, что и форма в QtDesigner
+class Window(QtWidgets.QMaainWindow):  # наследуемся от того же класса, что и форма в QtDesigner
     def __init__(self, parent=None):
         super().__init__(parent)
 
