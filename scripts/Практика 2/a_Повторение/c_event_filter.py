@@ -21,6 +21,7 @@ class Window(QtWidgets.QMainWindow):  # наследуемся от того ж�
         centralWidget.setLayout(layout)
         self.pb = QtWidgets.QPushButton("Press me")
         self.pb1 = QtWidgets.QPushButton("Press me too")
+        self.setMouseTracking(True)
 
         layout.addWidget(self.pb)
         layout.addWidget(self.pb1)
@@ -28,10 +29,13 @@ class Window(QtWidgets.QMainWindow):  # наследуемся от того ж�
 
     def eventFilter(self, watched: QtCore.QObject, event: QtCore.QEvent) -> bool:
         if watched == self.pb:
+            print(event.type())
             if event.type() == QtCore.QEvent.Type.Leave:
                 print("Вышли из области")
             if event.type() == QtCore.QEvent.Type.Enter:
                 print("Вошли в область")
+        return super().eventFilter(watched, event)
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication()
