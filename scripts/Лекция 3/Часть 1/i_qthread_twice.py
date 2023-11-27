@@ -9,8 +9,8 @@ from PySide6 import QtCore, QtWidgets
 
 
 class WorkerOne(QtCore.QThread):
-    progress = QtCore.Signal()
-
+    # progress = QtCore.Signal(int)
+    progress = QtCore.Signal(object)
     def __init__(self, parent=None):
         super().__init__(parent)
 

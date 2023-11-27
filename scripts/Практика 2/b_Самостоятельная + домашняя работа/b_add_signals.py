@@ -10,6 +10,7 @@ class Window(QtWidgets.QWidget):
 
         self.initUi()
         # TODO: Вызвать метод с инициализацией сигналов
+        self.initSignals()
 
     def initUi(self) -> None:
         """
