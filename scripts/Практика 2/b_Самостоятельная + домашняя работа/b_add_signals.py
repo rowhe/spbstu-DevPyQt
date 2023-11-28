@@ -133,9 +133,9 @@ class Window(QtWidgets.QWidget):
         :return: None
         """
 
-        self.pushButtonComboBox  # TODO подключить слот для вывода текста из comboBox в plainTextEditLog при нажатии на кнопку
+        self.pushButtonComboBox.clicked.connect(self.onPushButtonComboBoxClicked)  # TODO подключить слот для вывода текста из comboBox в plainTextEditLog при нажатии на кнопку
         self.pushButtonLineEdit.clicked.connect(self.onPushButtonLineEditClicked)
-        self.pushButtonTextEdit  # TODO подключить слот для вывода текста из textEdit в plainTextEditLog при нажатии на кнопку
+        self.pushButtonTextEdit.clicked.connect(self.onPushButtonTextEditClicked)  # TODO подключить слот для вывода текста из textEdit в plainTextEditLog при нажатии на кнопку
         self.pushButtonPlainTextEdit  # TODO подключить слот для вывода текста из plaineTextEdit в plainTextEditLog при нажатии на кнопку
         self.pushButtonSpinBox  # TODO подключить слот для вывода значения из spinBox в plainTextEditLog при нажатии на кнопку
         self.pushButtonDoubleSpinBox  # TODO подключить слот для вывода значения из doubleSpinBox в plainTextEditLog при нажатии на кнопку
@@ -158,6 +158,19 @@ class Window(QtWidgets.QWidget):
         self.plainTextEditLog.setPlainText(self.lineEdit.text())
 
     # TODO Самостоятельная реализация слотов для сигналов
+
+    def onPushButtonComboBoxClicked(self) -> None:
+        """
+        Обработка сигнала clicked для кнопки pushButtonComboBox
+        """
+
+        self.plainTextEditLog.setPlainText(self.lineEdit.text())
+
+    def onPushButtonTextEditClicked(self) -> None:
+        """
+        Обработка сигнала clicked для кнопки pushButtonTextEdit
+        """
+        self.plainTextEditLog.setPlainText(self.lineEdit.text())
 
 
 if __name__ == "__main__":
