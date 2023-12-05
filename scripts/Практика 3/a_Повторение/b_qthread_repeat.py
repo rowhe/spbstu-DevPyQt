@@ -13,6 +13,8 @@
 
 Опционально поработать с валидацией url
 """
+
+
 import requests
 from PySide6 import QtWidgets, QtCore
 
@@ -67,9 +69,9 @@ class Window(QtWidgets.QWidget):
         self.button.setEnabled(False)
         self.thread.run(url)
 
-    def setResult(self, result):
+    def setResult(self, status_code):
         self.button.setEnabled(True)
-        self.labelResult.setText(f"Answer code - {result}")
+        self.labelResult.setText(f"Answer code - {status_code}")
 
     def initThreads(self) -> None:
         self.thread = Worker()
