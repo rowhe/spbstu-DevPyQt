@@ -138,7 +138,7 @@ class Window(QtWidgets.QWidget):
         self.pushButtonTextEdit.clicked.connect(self.onPushButtonTextEditClicked)  # подключить слот для вывода текста из textEdit в plainTextEditLog при нажатии на кнопку
         # self.pushButtonTextEdit.clicked.connect(lambda :self.plainTextEditLog.setPlainText(self.textEdit.toPlainText()))
         self.pushButtonPlainTextEdit.clicked.connect(self.onPushButtonPlainTextEditClicked)  #  подключить слот для вывода текста из plaineTextEdit в plainTextEditLog при нажатии на кнопку
-        self.pushButtonSpinBox.clicked.connect(self.onPushButtonSpinBoxClicked)  #  подключить слот для вывода значения из spinBox в plainTextEditLog при нажатии на кнопку
+        # self.pushButtonSpinBox.clicked.connect(self.onPushButtonSpinBoxClicked)  #  подключить слот для вывода значения из spinBox в plainTextEditLog при нажатии на кнопку
         self.pushButtonDoubleSpinBox.clicked.connect(self.onPushButtonDoubleSpinBoxClicked)  #  подключить слот для вывода значения из doubleSpinBox в plainTextEditLog при нажатии на кнопку
         self.pushButtonTimeEdit.clicked.connect(self.onTime)  # TODO подключить слот для вывода времени из timeEdit в plainTextEditLog при нажатии на кнопку
         self.pushButtonDateTimeEdit  # TODO подключить слот для вывода времени из dateTimeEdit в plainTextEditLog при нажатии на кнопку
@@ -147,12 +147,15 @@ class Window(QtWidgets.QWidget):
         # self.comboBox.currentTextChanged.connect(self.nComboBoxChanged)  #  подключить слот для вывода текста в plainTextEditLog при изменении выбранного элемента в comboBox
         self.pushButtonComboBox.clicked.connect(self.onPushButtonComboBoxClicked)
 
-        self.spinBox  # TODO подключить слот для вывода значения в plainTextEditLog при изменении значения в spinBox
+        self.spinBox.valueChanged.connect(self.onSpinBoxChanged)  # подключить слот для вывода значения в plainTextEditLog при изменении значения в spinBox
         self.dateTimeEdit  # TODO подключить слот для вывода датывремени в plainTextEditLog при изменении датывремени в dateTimeEdit
 
     # slots --------------------------------------------------------------
 
-    def onPushButtonComboBoxClicked(self) -> None:
+    def onSpinBoxChanged(self) -> None:
+        self.plainTextEditLog.setPlainText(str(self.spinBox.value()))
+
+    def onPushButtonComboBoxClicked(self, d) -> None:
         """
         Обработка сигнала clicked для кнопки pushButtonComboBox
         """
@@ -181,9 +184,9 @@ class Window(QtWidgets.QWidget):
 
         self.plainTextEditLog.setPlainText(self.plainTextEdit.toPlainText())
 
-    def onPushButtonSpinBoxClicked(self) -> None:
-
-        self.plainTextEditLog.setPlainText(str(self.spinBox.value()))
+    # def onPushButtonSpinBoxClicked(self) -> None:
+    #
+    #     self.plainTextEditLog.setPlainText(str(self.spinBox.value()))
 
     def onPushButtonDoubleSpinBoxClicked(self) -> None:
         self.plainTextEditLog.setPlainText(str(self.doubleSpinBox.value()))
