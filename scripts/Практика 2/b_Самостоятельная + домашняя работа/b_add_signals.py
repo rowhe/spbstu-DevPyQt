@@ -148,7 +148,7 @@ class Window(QtWidgets.QWidget):
         self.pushButtonComboBox.clicked.connect(self.onPushButtonComboBoxClicked)
 
         self.spinBox.valueChanged.connect(self.onSpinBoxChanged)  # подключить слот для вывода значения в plainTextEditLog при изменении значения в spinBox
-        self.dateTimeEdit  # TODO подключить слот для вывода датывремени в plainTextEditLog при изменении датывремени в dateTimeEdit
+        self.dateTimeEdit.dateTimeChanged.connect(self.onTime)  # TODO подключить слот для вывода датывремени в plainTextEditLog при изменении датывремени в dateTimeEdit
 
     # slots --------------------------------------------------------------
 
@@ -195,7 +195,7 @@ class Window(QtWidgets.QWidget):
 
     def onTime(self) -> None:
 
-        self.plainTextEditLog.setPlainText(str(self.timeEdit.time().toString()))
+        self.plainTextEditLog.setPlainText(str(self.timeEdit.dateTime()))
 
 
 if __name__ == "__main__":
