@@ -1,4 +1,4 @@
-from PySide2 import QtWidgets, QtGui, QtCore
+from PySide6 import QtWidgets, QtGui, QtCore
 import pyodbc
 
 from ui.authorization_form import Ui_Form as Authorization_Form
@@ -40,8 +40,8 @@ class Authorization(QtWidgets.QWidget):
     def initDB_auth(self):
         sim = QtGui.QStandardItemModel()
         server = 'tcp:vpngw.avalon.ru'
-        database = 'library'
-        username = 'tsqllogin'
+        database = 'pgSQL'
+        username = 'pguser'
         password = 'Pa$$w0rd'
 
         self.conn = pyodbc.connect(
@@ -179,6 +179,6 @@ if __name__ == "__main__":
     # myWindow = MyFirstWindow()
     # myWindow.show()
 
-    app.exec_()
+    app.exec()
 
 

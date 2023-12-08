@@ -1,6 +1,6 @@
 import sys, os
 import subprocess, platform, requests
-from PySide2 import QtWidgets, QtCore, QtGui
+from PySide6 import QtWidgets, QtCore, QtGui
 import time
 
 
@@ -153,4 +153,4 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication()
     windows = MainWindow()
     windows.show()
-    app.exec_()
+    app.exec()
